@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+const validateObjectId = require('../middleware/validateObjectId');
 
 /** 
  * Se importan los modelos de la renta, la película y del cliente 
@@ -20,7 +23,7 @@ router.get('/', async (req, res) => {
 });
 
 // Endpoint para método POST de HTTP (agrega una renta)
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -48,7 +51,7 @@ router.post('/', async (req, res) => {
 });
 
 // Endpoint para método GET de HTTP (lista a una sola renta, determinada por el ID que se indique)
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
   const rental = await Rental.findById(req.params.id);
 
   if (!rental) return res.status(404).send(RENTA_NO_EXISTE);

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+const validateObjectId = require('../middleware/validateObjectId');
 
 // Mensaje 
 const GENERO_NO_EXISTE = 'No existe ningún genéro cinematográfico con el ID brindado.';
@@ -14,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // Endpoint para método POST de HTTP (agrega un género cinematográfico)
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
   
@@ -25,7 +28,7 @@ router.post('/', async (req, res) => {
 });
 
 // Endpoint para método PUT de HTTP (actualiza los datos del género cinematográfico cuyo ID se indique)
-router.put('/:id', async (req, res) => {
+router.put('/:id', [auth, validateObjectId], async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);  
   
@@ -39,7 +42,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Endpoint para método DELETE de HTTP (remueve al género cinematográfico cuyo ID se indique)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', [auth, admin, validateObjectId], async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
   if (!genre) return res.status(404).send(GENERO_NO_EXISTE);
@@ -48,7 +51,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Endpoint para método GET de HTTP (lista a un solo género cinematográfico, determinado por el ID que se indique)
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return res.status(404).send(GENERO_NO_EXISTE);

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+const validateObjectId = require('../middleware/validateObjectId');
 
 /** 
  * Se importan los modelos de la película y del género cinematográfico 
@@ -19,7 +22,7 @@ router.get('/', async (req, res) => {
 });
 
 // Endpoint para método POST de HTTP (agrega una película)
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -39,7 +42,7 @@ router.post('/', async (req, res) => {
 });
 
 // Endpoint para método PUT de HTTP (actualiza los datos de la película cuyo ID se indique)
-router.put('/:id', async (req, res) => {
+router.put('/:id', [auth, validateObjectId], async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -61,7 +64,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Endpoint para método DELETE de HTTP (remueve a la película cuyo ID se indique)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', [auth, admin, validateObjectId], async (req, res) => {
   const movie = await Movie.findByIdAndRemove(req.params.id);
 
   if (!movie) return res.status(404).send(PELICULA_NO_EXISTE);
@@ -70,7 +73,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Endpoint para método GET de HTTP (lista a una sola película, determinada por el ID que se indique)
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
   const movie = await Movie.findById(req.params.id);
 
   if (!movie) return res.status(404).send(PELICULA_NO_EXISTE);

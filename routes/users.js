@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send(USUARIO_YA_REGISTRADO);
 
-  user = new User(_.pick(req.body, ['name', 'email', 'password']));
+  user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
   // Creamos un String random de 10 carácteres, para agregar a la contraseña
   const salt = await bcrypt.genSalt(10);
   // Encriptamos la contraseña 
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 
   // Generamos el jwt, el cual luego deberá ser pasado en el header 'x-auth-token'
   const token = user.generateAuthToken();
-  res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+  res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 module.exports = router; 
