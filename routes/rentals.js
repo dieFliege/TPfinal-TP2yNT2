@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-// Se importan los modelos de la renta, la película y del cliente  
-const {Rental} = require('../models/rental'); 
+/** 
+ * Se importan los modelos de la renta, la película y del cliente 
+ * Para la renta se importa además el método de validación de los datos ingresados 
+ */   
+const {Rental, validate} = require('../models/rental'); 
 const {Movie} = require('../models/movie'); 
 const {Customer} = require('../models/customer'); 
 
@@ -19,6 +22,9 @@ router.get('/', async (req, res) => {
 
 // Endpoint para método POST de HTTP (agrega una renta)
 router.post('/', async (req, res) => {
+  const { error } = validate(req.body); 
+  if (error) return res.status(400).send(error.details[0].message);
+
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send(peliculaInvalida);
 

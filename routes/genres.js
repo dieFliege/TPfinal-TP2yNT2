@@ -5,8 +5,8 @@ const router = express.Router();
 // Mensaje 
 const generoNoExiste = 'No existe ningún genéro cinematográfico con el ID brindado.';
 
-// Se importa el modelo del género cinematográfico  
-const {Genre} = require('../models/genre');
+// Se importa el modelo del género cinematográfico y el método de validación de los datos ingresados 
+const {Genre, validate} = require('../models/genre');
 
 // Endpoint para método GET de HTTP (lista a todos los géneros cinematográficos) 
 router.get('/', async (req, res) => {
@@ -14,8 +14,11 @@ router.get('/', async (req, res) => {
   res.send(genres);
 });
 
-// Endpoint para método POST de HTTP (agrega un géneros cinematográficos)
+// Endpoint para método POST de HTTP (agrega un género cinematográfico)
 router.post('/', async (req, res) => {
+  const { error } = validate(req.body); 
+  if (error) return res.status(400).send(error.details[0].message);
+  
   let genre = new Genre({ name: req.body.name });
   genre = await genre.save();
   
@@ -24,6 +27,9 @@ router.post('/', async (req, res) => {
 
 // Endpoint para método PUT de HTTP (actualiza los datos del género cinematográfico cuyo ID se indique)
 router.put('/:id', async (req, res) => {
+  const { error } = validate(req.body); 
+  if (error) return res.status(400).send(error.details[0].message);  
+  
   const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
     new: true
   });

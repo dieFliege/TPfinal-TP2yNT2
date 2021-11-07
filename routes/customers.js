@@ -6,8 +6,8 @@ const router = express.Router();
 const clienteNoExiste = 'No existe ningún cliente con el ID brindado.';
 
 
-// Se importa el modelo del cliente 
-const {Customer} = require('../models/customer'); 
+// Se importan el modelo del cliente y el método de validación de los datos ingresados  
+const {Customer, validate} = require('../models/customer'); 
 
 // Endpoint para método GET de HTTP (lista a todos los clientes) 
 router.get('/', async (req, res) => {
@@ -17,6 +17,9 @@ router.get('/', async (req, res) => {
 
 // Endpoint para método POST de HTTP (agrega un cliente)
 router.post('/', async (req, res) => {
+    const { error } = validate(req.body); 
+    if (error) return res.status(400).send(error.details[0].message);  
+    
     let customer = new Customer({ 
       name: req.body.name,
       email: req.body.email
@@ -28,6 +31,9 @@ router.post('/', async (req, res) => {
 
 // Endpoint para método PUT de HTTP (actualiza los datos del cliente cuyo ID se indique)
 router.put('/:id', async (req, res) => {
+    const { error } = validate(req.body); 
+    if (error) return res.status(400).send(error.details[0].message);
+
     const customer = await Customer.findByIdAndUpdate(req.params.id,
       { 
         name: req.body.name,

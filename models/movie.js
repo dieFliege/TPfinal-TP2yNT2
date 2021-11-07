@@ -1,3 +1,5 @@
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 
 /**
@@ -24,6 +26,20 @@ const movieSchema = new mongoose.Schema({
 // Modelo que define a la entidad de la película 
 const Movie = mongoose.model('Movie', movieSchema);
 
-// Se disponibiliza la exportación del esquema y modelo de la película 
+// Método para validar los datos de la película que se ingresa 
+function validateMovie(movie) {
+  const validSchema = Joi.object({
+    title: Joi.string().min(5).max(50).required(),
+    genreId: Joi.objectId().required()
+  });
+
+  return validSchema.validate({ title: movie.title, genreId: movie.genreId });
+}
+
+/** 
+ * Se disponibiliza la exportación del esquema y modelo de la película 
+ * y el método de validación de los datos ingresados 
+ */  
 exports.movieSchema = movieSchema;
 exports.Movie = Movie;
+exports.validate = validateMovie;
