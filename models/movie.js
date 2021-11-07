@@ -37,9 +37,8 @@ function validateMovie(movie) {
 }
 
 /** 
- * Se disponibiliza la exportación del esquema y modelo de la película 
+ * Se disponibiliza la exportación del modelo de la película 
  * y el método de validación de los datos ingresados 
- */  
-exports.movieSchema = movieSchema;
+ */
 exports.Movie = Movie;
 exports.validate = validateMovie;

@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
 // Mensaje 
-const generoNoExiste = 'No existe ningún genéro cinematográfico con el ID brindado.';
+const GENERO_NO_EXISTE = 'No existe ningún genéro cinematográfico con el ID brindado.';
 
 // Se importa el modelo del género cinematográfico y el método de validación de los datos ingresados 
 const {Genre, validate} = require('../models/genre');
@@ -34,7 +33,7 @@ router.put('/:id', async (req, res) => {
     new: true
   });
 
-  if (!genre) return res.status(404).send(generoNoExiste);
+  if (!genre) return res.status(404).send(GENERO_NO_EXISTE);
   
   res.send(genre);
 });
@@ -43,7 +42,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
-  if (!genre) return res.status(404).send(generoNoExiste);
+  if (!genre) return res.status(404).send(GENERO_NO_EXISTE);
 
   res.send(genre);
 });
@@ -52,7 +51,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
-  if (!genre) return res.status(404).send(generoNoExiste);
+  if (!genre) return res.status(404).send(GENERO_NO_EXISTE);
 
   res.send(genre);
 });

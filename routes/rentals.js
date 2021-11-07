@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
@@ -11,8 +10,8 @@ const {Movie} = require('../models/movie');
 const {Customer} = require('../models/customer'); 
 
 // Mensajes 
-const peliculaInvalida = 'Cliente inválido.';
-const rentaNoExiste = 'No existe ninguna renta con el ID brindado.';
+const PELICULA_INVALIDA = 'Cliente inválido.';
+const RENTA_NO_EXISTE = 'No existe ninguna renta con el ID brindado.';
 
 // Endpoint para método GET de HTTP (lista a todas las rentas) 
 router.get('/', async (req, res) => {
@@ -26,10 +25,10 @@ router.post('/', async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const customer = await Customer.findById(req.body.customerId);
-  if (!customer) return res.status(400).send(peliculaInvalida);
+  if (!customer) return res.status(400).send(PELICULA_INVALIDA);
 
   const movie = await Movie.findById(req.body.movieId);
-  if (!movie) return res.status(400).send(peliculaInvalida);
+  if (!movie) return res.status(400).send(PELICULA_INVALIDA);
 
   let rental = new Rental({ 
     customer: {
@@ -52,7 +51,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const rental = await Rental.findById(req.params.id);
 
-  if (!rental) return res.status(404).send(rentaNoExiste);
+  if (!rental) return res.status(404).send(RENTA_NO_EXISTE);
 
   res.send(rental);
 });

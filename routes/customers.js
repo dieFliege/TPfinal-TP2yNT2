@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
 // Mensaje
-const clienteNoExiste = 'No existe ningún cliente con el ID brindado.';
+const CLIENTE_NO_EXISTE = 'No existe ningún cliente con el ID brindado.';
 
 
 // Se importan el modelo del cliente y el método de validación de los datos ingresados  
@@ -40,7 +39,7 @@ router.put('/:id', async (req, res) => {
         email: req.body.email
       }, { new: true });
   
-    if (!customer) return res.status(404).send(clienteNoExiste);
+    if (!customer) return res.status(404).send(CLIENTE_NO_EXISTE);
     
     res.send(customer);
 });
@@ -49,7 +48,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const customer = await Customer.findByIdAndRemove(req.params.id);
   
-    if (!customer) return res.status(404).send(clienteNoExiste);
+    if (!customer) return res.status(404).send(CLIENTE_NO_EXISTE);
   
     res.send(customer);
 });
@@ -58,7 +57,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const customer = await Customer.findById(req.params.id);
   
-    if (!customer) return res.status(404).send(clienteNoExiste);
+    if (!customer) return res.status(404).send(CLIENTE_NO_EXISTE);
   
     res.send(customer);
 });

@@ -31,9 +31,8 @@ function validateCustomer(customer) {
 }
 
 /** 
- * Se disponibiliza la exportación del esquema, el modelo del cliente 
+ * Se disponibiliza la exportación del modelo del cliente 
  * y el método de validación de los datos ingresados 
  */
-exports.customerSchema = customerSchema;
 exports.Customer = Customer;
 exports.validate = validateCustomer;
