@@ -1,8 +1,9 @@
+const winston = require('winston');
 const mongoose = require('mongoose');
+const config = require('config');
 
-// Se disponibiliza la conexión a la base de datos
 module.exports = function() {
-    mongoose.connect('mongodb://localhost/videORT')
-    .then(() => console.log('Conectado a MongoDB...'))
-    .catch(err => console.error('No se pudo conectar a MongoDB...'));
+  const db = config.get('db');
+  mongoose.connect(db)
+    .then(() => winston.info(`Conectado a ${db}...`));
 }
