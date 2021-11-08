@@ -1,3 +1,4 @@
 {
-    "jwtPrivateKey": "videORT_jwtPrivateKey"
+    "jwtPrivateKey": "videORT_jwtPrivateKey",
+    "db": "videORT_db"
 }
