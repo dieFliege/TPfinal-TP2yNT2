@@ -52,7 +52,7 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true, 
-        minlength: 5,
+        minlength: 1,
         maxlength: 255
       },
       poster: {
@@ -142,7 +142,7 @@ function validateMovie(movie) {
     year: Joi.number().min(1900).max(2099).required(),
     rated: Joi.string().min(1).max(10).required(),
     actors: Joi.string().min(5).max(255).required(),
-    awards: Joi.string().min(5).max(255).required(),
+    awards: Joi.string().min(1).max(255).required(),
     poster: Joi.string().min(5).max(255).required(),
     writer: Joi.string().min(5).max(255).required(),
     imdbID: Joi.string().min(5).max(20).required(),
