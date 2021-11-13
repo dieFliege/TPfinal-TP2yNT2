@@ -152,7 +152,7 @@ function validateMovie(movie) {
     language: Joi.string().min(5).max(255).required(),
     released: Joi.string().min(10).max(15).required(),
     metascore: Joi.number().min(0).max(100).required(),
-    imdbVotes: Joi.number().min(1900).required(),
+    imdbVotes: Joi.number().min(0).required(),
     imdbRating: Joi.number().min(0).max(10).required()
   });
 
