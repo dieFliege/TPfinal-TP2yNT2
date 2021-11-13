@@ -11,6 +11,10 @@ const {Rental, validate} = require('../models/rental');
 const {Movie} = require('../models/movie'); 
 const {Customer} = require('../models/customer'); 
 
+// Constantes para el alquiler 
+const TIEMPO_ALQUILER = 300000000;
+const PRECIO_ALQUILER = 200.0;
+
 // Mensajes 
 const PELICULA_INVALIDA = 'Cliente inválido.';
 const RENTA_NO_EXISTE = 'No existe ninguna renta con el ID brindado.';
@@ -33,7 +37,7 @@ router.post('/', auth, async (req, res) => {
   if (!movie) return res.status(400).send(PELICULA_INVALIDA);
 
   let today = new Date();
-  let returnDate = new Date(Date.now() + 300000000);
+  let returnDate = new Date(Date.now() + TIEMPO_ALQUILER);
   const ddToday = String(today.getDate());
   const mmToday = String(today.getMonth());
   const yyyyToday = today.getFullYear();
@@ -56,7 +60,7 @@ router.post('/', auth, async (req, res) => {
     },
     dateOut: today,
     dateReturned: returnDate,
-    rentalFee: 200.0
+    rentalFee: PRECIO_ALQUILER
   });
   await rental.save();
   
