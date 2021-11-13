@@ -34,7 +34,23 @@ router.post('/', auth, async (req, res) => {
     genre: {
       _id: genre._id,
       name: genre.name
-    }
+    },
+    plot: req.body.plot,
+    year: req.body.year,
+    rated: req.body.rated,
+    actors: req.body.actors,
+    awards: req.body.awards,
+    poster: req.body.poster,
+    writer: req.body.writer,
+    imdbID: req.body.imdbID,
+    country: req.body.country,
+    runtime: req.body.runtime,
+    director: req.body.director,
+    language: req.body.language,
+    released: req.body.released,
+    metascore: req.body.metascore,
+    imdbVotes: req.body.imdbVotes,
+    imdbRating: req.body.imdbRating
   });
   await movie.save();
   
@@ -55,7 +71,23 @@ router.put('/:id', [auth, validateObjectId], async (req, res) => {
       genre: {
         _id: genre._id,
         name: genre.name
-      }
+      },
+      plot: req.body.plot,
+      year: req.body.year,
+      rated: req.body.rated,
+      actors: req.body.actors,
+      awards: req.body.awards,
+      poster: req.body.poster,
+      writer: req.body.writer,
+      imdbID: req.body.imdbID,
+      country: req.body.country,
+      runtime: req.body.runtime,
+      director: req.body.director,
+      language: req.body.language,
+      released: req.body.released,
+      metascore: req.body.metascore,
+      imdbVotes: req.body.imdbVotes,
+      imdbRating: req.body.imdbRating
     }, { new: true });
 
   if (!movie) return res.status(404).send(PELICULA_NO_EXISTE);

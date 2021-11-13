@@ -32,6 +32,17 @@ router.post('/', auth, async (req, res) => {
   const movie = await Movie.findById(req.body.movieId);
   if (!movie) return res.status(400).send(PELICULA_INVALIDA);
 
+  let today = new Date();
+  let returnDate = new Date(Date.now() + 300000000);
+  const ddToday = String(today.getDate());
+  const mmToday = String(today.getMonth());
+  const yyyyToday = today.getFullYear();
+  const ddreturnDate = String(returnDate.getDate());
+  const mmreturnDate = String(returnDate.getMonth());
+  const yyyyreturnDate = returnDate.getFullYear();
+  today = `${ddToday}/${mmToday}/${yyyyToday}`;
+  returnDate = `${ddreturnDate}/${mmreturnDate}/${yyyyreturnDate}`;
+
   let rental = new Rental({ 
     customer: {
       _id: customer._id,
@@ -42,7 +53,10 @@ router.post('/', auth, async (req, res) => {
       _id: movie._id,
       title: movie.title,
       genre: movie.genre
-    }
+    },
+    dateOut: today,
+    dateReturned: returnDate,
+    rentalFee: 200.0
   });
   await rental.save();
   

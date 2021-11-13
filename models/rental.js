@@ -31,6 +31,15 @@ const rentalSchema = new mongoose.Schema({
         }
       }),
       required: true
+    },
+    dateOut: { 
+      type: String
+    },
+    dateReturned: { 
+      type: String
+    },
+    rentalFee: { 
+      type: Number
     }
 });
 
