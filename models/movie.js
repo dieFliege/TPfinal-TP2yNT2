@@ -80,7 +80,7 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true, 
-        minlength: 5,
+        minlength: 2,
         maxlength: 50
       },
       runtime: {
@@ -146,7 +146,7 @@ function validateMovie(movie) {
     poster: Joi.string().min(5).max(255).required(),
     writer: Joi.string().min(5).max(255).required(),
     imdbID: Joi.string().min(5).max(20).required(),
-    country: Joi.string().min(5).max(50).required(),
+    country: Joi.string().min(2).max(50).required(),
     runtime: Joi.string().min(5).max(10).required(),
     director: Joi.string().min(5).max(255).required(),
     language: Joi.string().min(5).max(255).required(),
