@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true, 
-        minlength: 5,
+        minlength: 1,
         maxlength: 255
       },
       genre: { 
@@ -136,7 +136,7 @@ const Movie = mongoose.model('Movie', movieSchema);
 // Método para validar los datos de la película que se ingresa 
 function validateMovie(movie) {
   const validSchema = Joi.object({
-    title: Joi.string().min(5).max(50).required(),
+    title: Joi.string().min(1).max(50).required(),
     genreId: Joi.objectId().required(),
     plot: Joi.string().min(5).max(255).required(),
     year: Joi.number().min(1900).max(2099).required(),
