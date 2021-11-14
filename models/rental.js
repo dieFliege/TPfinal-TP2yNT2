@@ -56,9 +56,21 @@ function validateRental(rental) {
   return validSchema.validate({ customerId: rental.customerId, movieId: rental.movieId });
 }
 
+// Método para definir la fecha de fin del alquiler
+function defineRentalDate(rentalTime) {
+  let date = new Date(Date.now() + rentalTime);
+  const dd = String(today.getDate());
+  const mm = String(today.getMonth());
+  const yyyy = today.getFullYear();
+  date = `${dd}/${mm}/${yyyy}`;
+  return date;
+}
+
 /** 
  * Se disponibiliza la exportación del modelo de la renta 
- * y el método de validación de los datos ingresados 
+ * el método de validación de los datos ingresados 
+ * y el método para definir la fecha de fin del alquiler 
  */  
 exports.Rental = Rental;
 exports.validate = validateRental;
+exports.defineRentalDate = defineRentalDate;

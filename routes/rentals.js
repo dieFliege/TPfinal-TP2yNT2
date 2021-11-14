@@ -7,7 +7,7 @@ const validateObjectId = require('../middleware/validateObjectId');
  * Se importan los modelos de la renta, la película y del cliente 
  * Para la renta se importa además el método de validación de los datos ingresados 
  */   
-const {Rental, validate} = require('../models/rental'); 
+const {Rental, validate, defineRentalDate} = require('../models/rental'); 
 const {Movie} = require('../models/movie'); 
 const {Customer} = require('../models/customer'); 
 
@@ -36,17 +36,6 @@ router.post('/', auth, async (req, res) => {
   const movie = await Movie.findById(req.body.movieId);
   if (!movie) return res.status(400).send(PELICULA_INVALIDA);
 
-  let today = new Date();
-  let returnDate = new Date(Date.now() + TIEMPO_ALQUILER);
-  const ddToday = String(today.getDate());
-  const mmToday = String(today.getMonth());
-  const yyyyToday = today.getFullYear();
-  const ddreturnDate = String(returnDate.getDate());
-  const mmreturnDate = String(returnDate.getMonth());
-  const yyyyreturnDate = returnDate.getFullYear();
-  today = `${ddToday}/${mmToday}/${yyyyToday}`;
-  returnDate = `${ddreturnDate}/${mmreturnDate}/${yyyyreturnDate}`;
-
   let rental = new Rental({ 
     customer: {
       _id: customer._id,
@@ -58,8 +47,8 @@ router.post('/', auth, async (req, res) => {
       title: movie.title,
       genre: movie.genre
     },
-    dateOut: today,
-    dateReturned: returnDate,
+    dateOut: defineRentalDate(TIEMPO_ALQUILER),
+    dateReturned: defineRentalDate(),
     rentalFee: PRECIO_ALQUILER
   });
   await rental.save();
