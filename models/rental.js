@@ -57,7 +57,7 @@ function validateRental(rental) {
 }
 
 // Método para definir la fecha de fin del alquiler
-function defineRentalDate(rentalTime) {
+function defineRentalDate(rentalTime=0) {
   let date = new Date(Date.now() + rentalTime);
   const dd = String(today.getDate());
   const mm = String(today.getMonth());
