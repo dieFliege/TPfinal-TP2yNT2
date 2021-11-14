@@ -47,7 +47,7 @@ router.post('/', auth, async (req, res) => {
       title: movie.title,
       genre: movie.genre
     },
-    dateOut: rentalDate(0),
+    dateOut: rentalDate(),
     dateReturned: rentalDate(TIEMPO_ALQUILER),
     rentalFee: PRECIO_ALQUILER
   });
