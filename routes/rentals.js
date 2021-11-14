@@ -7,7 +7,7 @@ const validateObjectId = require('../middleware/validateObjectId');
  * Se importan los modelos de la renta, la película y del cliente 
  * Para la renta se importa además el método de validación de los datos ingresados 
  */   
-const {Rental, validate, defineRentalDate} = require('../models/rental'); 
+const {Rental, validate, rentalDate} = require('../models/rental'); 
 const {Movie} = require('../models/movie'); 
 const {Customer} = require('../models/customer'); 
 
@@ -47,8 +47,8 @@ router.post('/', auth, async (req, res) => {
       title: movie.title,
       genre: movie.genre
     },
-    dateOut: defineRentalDate(TIEMPO_ALQUILER),
-    dateReturned: defineRentalDate(),
+    dateOut: rentalDate(0),
+    dateReturned: rentalDate(TIEMPO_ALQUILER),
     rentalFee: PRECIO_ALQUILER
   });
   await rental.save();
